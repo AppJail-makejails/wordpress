@@ -1,0 +1,91 @@
+INCLUDE options/options.makejail
+
+# Database settings
+ARG wp_version=6.1.1
+ARG wp_db_name=wordpress
+ARG wp_db_user=wpuser
+ARG wp_db_password=random
+ARG wp_db_host=127.0.0.1
+ARG wp_db_charset=utf8
+ARG wp_db_collate=0
+# Authentication unique keys and salts
+ARG wp_auto_secret=1
+ARG wp_auth_key=put your unique phrase here
+ARG wp_secure_auth_key=put your unique phrase here
+ARG wp_logged_in_key=put your unique phrase here
+ARG wp_nonce_key=put your unique phrase here
+ARG wp_auth_salt=put your unique phrase here
+ARG wp_secure_auth_salt=put your unique phrase here
+ARG wp_logged_in_salt=put your unique phrase here
+ARG wp_nonce_salt=put your unique phrase here
+# WordPress database table prefix
+ARG wp_table_prefix=wp_
+# WordPress debugging mode
+ARG wp_debug=0
+
+CMD mkdir -p /usr/local/www
+ENV WP_VER=${wp_version}
+RUN fetch -o /tmp/wordpress.tar.gz https://wordpress.org/wordpress-${WP_VER}.tar.gz
+CMD tar -C /usr/local/www -xf /tmp/wordpress.tar.gz
+CMD chown -R www:www /usr/local/www/wordpress
+
+# Requirements
+INCLUDE gh+AppJail-makejails/php
+INCLUDE gh+AppJail-makejails/mariadb
+INCLUDE gh+AppJail-makejails/nginx
+INCLUDE options/pkgs.makejail
+
+COPY usr
+
+CMD echo "cgi.fix_pathinfo = 0;" >> /usr/local/etc/php.ini
+
+SERVICE nginx reload
+SERVICE php-fpm reload
+
+COPY wp-config-sample.php /usr/local/www/wordpress/wp-config.php
+
+REPLACE /usr/local/www/wordpress/wp-config.php DB_NAME ${wp_db_name}
+REPLACE /usr/local/www/wordpress/wp-config.php DB_USER ${wp_db_user}
+
+RAW if [ "${wp_db_password}" = "random" ]; then
+RAW 	wp_db_password=`openssl rand -hex 24`
+RAW fi
+REPLACE /usr/local/www/wordpress/wp-config.php DB_PASSWORD ${wp_db_password}
+
+REPLACE /usr/local/www/wordpress/wp-config.php DB_HOST ${wp_db_host}
+REPLACE /usr/local/www/wordpress/wp-config.php DB_CHARSET ${wp_db_charset}
+
+RAW if [ "${wp_db_collate}" = 0 ]; then
+RAW 	wp_db_collate=
+RAW fi
+REPLACE /usr/local/www/wordpress/wp-config.php DB_COLLATE ${wp_db_collate}
+
+RAW if [ "${wp_auto_secret}" = 0 ]; then
+	COPY wp-security-keys.php /usr/local/www/wordpress/wp-security-keys.php
+
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php AUTH_KEY ${wp_auth_key}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php SECURE_AUTH_KEY ${wp_secure_auth_key}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php LOGGED_IN_KEY ${wp_logged_in_key}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php NONCE_KEY ${wp_nonce_key}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php AUTH_SALT ${wp_auth_salt}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php SECURE_AUTH_SALT ${wp_secure_auth_salt}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php LOGGED_IN_SALT ${wp_logged_in_salt}
+	REPLACE /usr/local/www/wordpress/wp-security-keys.php NONCE_SALT ${wp_nonce_salt}
+RAW else
+	CMD echo "<?php" > /usr/local/www/wordpress/wp-security-keys.php
+	CMD fetch -o - "https://api.wordpress.org/secret-key/1.1/salt" >> /usr/local/www/wordpress/wp-security-keys.php
+RAW fi
+
+REPLACE /usr/local/www/wordpress/wp-config.php TABLE_PREFIX ${wp_table_prefix}
+
+RAW if [ "${wp_debug}" = 0 ]; then
+RAW 	wp_debug=false
+RAW else
+RAW 	wp_debug=true
+RAW fi
+REPLACE /usr/local/www/wordpress/wp-config.php DEBUG ${wp_debug}
+
+CMD echo "CREATE DATABASE ${wp_db_name}" | mysql
+CMD echo "CREATE USER ${wp_db_user}@${wp_db_host} IDENTIFIED BY '${wp_db_password}';" | mysql
+CMD echo "GRANT ALL PRIVILEGES ON wordpress.* TO ${wp_db_user}@${wp_db_host};" | mysql
+CMD echo "FLUSH PRIVILEGES;" | mysql
