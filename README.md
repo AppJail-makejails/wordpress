@@ -35,7 +35,7 @@ appjail makejail -j wordpress -- --network web
 
 ### Arguments
 
-* `wp_version` (default: `6.1.1`).
+* `wp_version` (default: `6.2`).
 * `wp_db_name` (default: `wordpress`).
 * `wp_db_user` (default: `wpuser`).
 * `wp_db_password` (default: `random`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
