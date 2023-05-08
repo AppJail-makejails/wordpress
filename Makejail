@@ -24,8 +24,7 @@ ARG wp_table_prefix=wp_
 ARG wp_debug=0
 
 CMD mkdir -p /usr/local/www
-ENV WP_VER=${wp_version}
-RUN fetch -o /tmp/wordpress.tar.gz https://wordpress.org/wordpress-${WP_VER}.tar.gz
+CMD fetch -o /tmp/wordpress.tar.gz https://wordpress.org/wordpress-${wp_version}.tar.gz
 CMD tar -C /usr/local/www -xf /tmp/wordpress.tar.gz
 CMD chown -R www:www /usr/local/www/wordpress
 
