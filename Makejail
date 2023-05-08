@@ -1,7 +1,7 @@
 INCLUDE options/options.makejail
 
 # Database settings
-ARG wp_version=6.1.1
+ARG wp_version=6.2
 ARG wp_db_name=wordpress
 ARG wp_db_user=wpuser
 ARG wp_db_password=random
