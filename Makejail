@@ -7,7 +7,7 @@ ARG wp_db_user=wpuser
 ARG wp_db_password=random
 ARG wp_db_host=127.0.0.1
 ARG wp_db_charset=utf8
-ARG wp_db_collate=0
+ARG wp_db_collate?
 # Authentication unique keys and salts
 ARG wp_auto_secret=1
 ARG wp_auth_key=put your unique phrase here
@@ -54,9 +54,6 @@ REPLACE /usr/local/www/wordpress/wp-config.php DB_PASSWORD ${wp_db_password}
 REPLACE /usr/local/www/wordpress/wp-config.php DB_HOST ${wp_db_host}
 REPLACE /usr/local/www/wordpress/wp-config.php DB_CHARSET ${wp_db_charset}
 
-RAW if [ "${wp_db_collate}" = 0 ]; then
-RAW 	wp_db_collate=
-RAW fi
 REPLACE /usr/local/www/wordpress/wp-config.php DB_COLLATE ${wp_db_collate}
 
 RAW if [ "${wp_auto_secret}" = 0 ]; then

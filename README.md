@@ -41,7 +41,7 @@ appjail makejail -j wordpress -- --network web
 * `wp_db_password` (default: `random`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
 * `wp_db_host` (default: `127.0.0.1`).
 * `wp_db_charset` (default: `utf8`).
-* `wp_db_collate` (default: `0`): If `0`, `DB_COLLATE` will have an empty value.
+* `wp_db_collate` (optional)
 * `wp_auto_secret` (default: `1`): If `0`, `https://api.wordpress.org/secret-key/1.1/salt` is used to generate `AUTH_KEY`, `SECURE_AUTH_KEY`, `LOGGED_IN_KEY`, `NONCE_KEY`, `AUTH_SALT`, `SECURE_AUTH_SALT`, `LOGGED_IN_SALT` and `NONCE_SALT`.
 * `wp_auth_key` (default: `put your unique phrase here`).
 * `wp_secure_auth_key` (default: `put your unique phrase here`).
