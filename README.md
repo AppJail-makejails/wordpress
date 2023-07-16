@@ -135,6 +135,7 @@ http {
 
 ### Arguments
 
+* `wp_tag` (default: `13.2-php82-apache-6.2.2`): see [#tags](#tags).
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
 * `wp_db_password` (default: `password_here`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.

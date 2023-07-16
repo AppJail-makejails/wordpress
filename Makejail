@@ -23,7 +23,7 @@ ARG wp_table_prefix=wp_
 ARG wp_debug=0
 
 # Tag
-ARG wp_tag=13.2-apache-6.2.2
+ARG wp_tag=13.2-php82-apache-6.2.2
 
 FROM --entrypoint gh+AppJail-makejails/wordpress wordpress:${wp_tag}
 
