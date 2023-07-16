@@ -1,0 +1,21 @@
+INCLUDE gh+AppJail-makejails/apache
+INCLUDE download-wordpress.makejail
+INCLUDE pkgs/pkgs.makejail
+
+CMD echo "======> Enabling rewrite_module ... <======"
+CMD sed -i '' -Ee 's/^#(LoadModule rewrite_module.+)/\1/' /usr/local/etc/apache24/httpd.conf
+
+CMD echo "======> Copying WordPress configuration for apache ... <======"
+COPY files/wordpress.conf /usr/local/etc/apache24/Includes/wordpress.conf
+
+CMD echo "======> Removing old apache HTML files ... <======"
+CMD rm -vf /usr/local/www/apache24/data/*
+
+CMD echo "======> Extracting WordPress ... <======"
+CMD tar --strip-components 1 -C /usr/local/www/apache24/data -xf /tmp/wordpress.tar.gz
+
+CMD echo "======> Changing owner and group ... <======"
+CMD chown -R www:www /usr/local/www/apache24/data
+
+CMD echo "======> Restarting apache ... <======"
+SERVICE apache24 restart
