@@ -74,6 +74,8 @@ appjail cmd jexec nginx mkdir -p /usr/local/www/wordpress
 appjail fstab jail nginx set \
     -d /usr/local/appjail/jails/wordpress/jail/usr/local/www/wordpress \
     -m /usr/local/www/wordpress
+appjail fstab jail nginx compile
+appjail fstab jail nginx mount -a
 appjail cmd local nginx cp nginx.conf usr/local/etc/nginx/nginx.conf
 appjail service jail nginx nginx restart
 ```
