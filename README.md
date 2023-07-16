@@ -194,9 +194,21 @@ appjail image export wordpress
 
 ## Tags
 
-| Tag                 | Arch    | Version           | Type   |
-| ------------------- | ------- | ----------------- | ------ |
-| `13.2-apache-6.2.2` | `amd64` | `13.2-RELEASE-p1` | `thin` |
-| `13.2-fpm-6.2.2`    | `amd64` | `13.2-RELEASE-p1` | `thin` |
-| `13.1-apache-6.2.2` | `amd64` | `13.1-RELEASE-p8` | `thin` |
-| `13.1-fpm-6.2.2`    | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| Tag                       | Arch    | Version           | Type   |
+| ------------------------- | ------- | ----------------- | ------ |
+| `13.2-php80-apache-6.2.2` | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php81-apache-6.2.2` | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php82-apache-6.2.2` | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php83-apache-6.2.2` | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php80-fpm-6.2.2`    | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php81-fpm-6.2.2`    | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php82-fpm-6.2.2`    | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.2-php83-fpm-6.2.2`    | `amd64` | `13.2-RELEASE-p1` | `thin` |
+| `13.1-php80-apache-6.2.2` | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php81-apache-6.2.2` | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php82-apache-6.2.2` | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php83-apache-6.2.2` | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php80-fpm-6.2.2`    | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php81-fpm-6.2.2`    | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php82-fpm-6.2.2`    | `amd64` | `13.1-RELEASE-p8` | `thin` |
+| `13.1-php83-fpm-6.2.2`    | `amd64` | `13.1-RELEASE-p8` | `thin` |
