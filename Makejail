@@ -25,7 +25,7 @@ ARG wp_debug=0
 # Tag
 ARG wp_tag=13.2-php82-apache-6.3
 
-FROM --entrypoint /tmp/m/wordpress/.ajspec wordpress:${wp_tag}
+FROM --entrypoint gh+AppJail-makejails/wordpress wordpress:${wp_tag}
 
 RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/wordpress" ]; then
 	VAR --make-arg-env wwwdir=/usr/local/www/wordpress
