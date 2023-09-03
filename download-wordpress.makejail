@@ -1,4 +1,4 @@
-ARG wp_version=6.3
+ARG wp_version=6.3.1
 
 CMD echo "======> Downloading WordPress ($wp_version) ... <======"
 CMD fetch -qo /tmp/wordpress.tar.gz https://wordpress.org/wordpress-${wp_version}.tar.gz

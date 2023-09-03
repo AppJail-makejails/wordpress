@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.2-php82-apache-6.3`): see [#tags](#tags).
+* `wp_tag` (default: `13.2-php82-apache-6.3.1`): see [#tags](#tags).
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
 * `wp_db_password` (default: `password_here`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
@@ -191,17 +191,17 @@ appjail image export wordpress
 
 ### Arguments
 
-* `wp_version` (default: `6.3`).
+* `wp_version` (default: `6.3.1`).
 
 ## Tags
 
-| Tag                     | Arch    | Version           | Type   | `wp_version` |
-| ----------------------- | ------- | ----------------- | ------ | ------------ |
-| `13.2-php80-apache-6.3` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php81-apache-6.3` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php82-apache-6.3` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php83-apache-6.3` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php80-fpm-6.3`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php81-fpm-6.3`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php82-fpm-6.3`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
-| `13.2-php83-fpm-6.3`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3      |
+| Tag                       | Arch    | Version           | Type   | `wp_version` |
+| ------------------------- | ------- | ----------------- | ------ | ------------ |
+| `13.2-php80-apache-6.3.1` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php81-apache-6.3.1` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php82-apache-6.3.1` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php83-apache-6.3.1` | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php80-fpm-6.3.1`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php81-fpm-6.3.1`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php82-fpm-6.3.1`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
+| `13.2-php83-fpm-6.3.1`    | `amd64` | `13.2-RELEASE-p2` | `thin` |     6.3.1    |
