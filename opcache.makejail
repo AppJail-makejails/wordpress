@@ -1,2 +1,0 @@
-CMD echo "======> Installing opcache configuration ... <======"
-COPY files/opcache-recommended.ini /usr/local/etc/php/opcache-recommended.ini

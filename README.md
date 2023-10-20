@@ -153,6 +153,7 @@ http {
 * `wp_nonce_salt` (default: `put your unique phrase here`).
 * `wp_table_prefix` (default: `wp_`).
 * `wp_debug` (default: `0`): If `0`, `WP_DEBUG` will be `false`. Any other value is `true`.
+* `wp_php_type` (default: `production`) The PHP configuration file to link to `/usr/local/etc/php.ini`. Valid values: `development`, `production`. Only valid for apache, use the `php_type` argument when using php-fpm.
 
 ## How to build the Image
 

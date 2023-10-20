@@ -1,7 +1,6 @@
 INCLUDE gh+AppJail-makejails/php
 INCLUDE download-wordpress.makejail
 INCLUDE pkgs/pkgs.makejail
-INCLUDE opcache.makejail
 
 CMD echo "======> Creating WWW directory ... <======"
 CMD mkdir -p /usr/local/www

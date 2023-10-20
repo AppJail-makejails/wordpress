@@ -21,6 +21,8 @@ ARG wp_nonce_salt=put your unique phrase here
 ARG wp_table_prefix=wp_
 # WordPress debugging mode
 ARG wp_debug=0
+# .ini
+ARG wp_php_type=production
 
 # Tag
 ARG wp_tag=13.2-php82-apache-6.3.2
@@ -30,6 +32,15 @@ FROM --entrypoint gh+AppJail-makejails/wordpress wordpress:${wp_tag}
 RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/wordpress" ]; then
 	VAR --make-arg-env wwwdir=/usr/local/www/wordpress
 RAW elif appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/apache24/data" ]; then
+	RAW case "${wp_php_type}" in
+	RAW 	development|production) ;;
+	RAW 	*) echo "VALID TYPES: development, production"; exit 1
+	RAW esac
+
+	# This symlink is only created for apache as php Makejail already has
+	# this feature.
+	CMD ln -s /usr/local/etc/php.ini-${wp_php_type} /usr/local/etc/php.ini
+
 	VAR --make-arg-env wwwdir=/usr/local/www/apache24/data
 RAW else
 	RAW echo "Cannot find a WWW directory." >&2
