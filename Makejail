@@ -41,6 +41,8 @@ RAW elif appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/apache24/d
 	# this feature.
 	CMD ln -s /usr/local/etc/php.ini-${wp_php_type} /usr/local/etc/php.ini
 
+	SERVICE apache24 restart
+
 	VAR --make-arg-env wwwdir=/usr/local/www/apache24/data
 RAW else
 	RAW echo "Cannot find a WWW directory." >&2
