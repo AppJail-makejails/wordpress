@@ -155,45 +155,6 @@ http {
 * `wp_debug` (default: `0`): If `0`, `WP_DEBUG` will be `false`. Any other value is `true`.
 * `wp_php_type` (default: `production`) The PHP configuration file to link to `/usr/local/etc/php.ini`. Valid values: `development`, `production`. Only valid for apache, use the `php_type` argument when using php-fpm.
 
-## How to build the Image
-
-### Apache
-
-```sh
-appjail makejail \
-    -j wordpress \
-    -f "gh+AppJail-makejails/wordpress --file build-with-apache.makejail" \
-    -o virtualnet=":wordpress default" \
-    -o nat -- \
-        --apache_tag 13.2-php82
-```
-
-### FPM
-
-```sh
-appjail makejail \
-    -j wordpress \
-    -f "gh+AppJail-makejails/wordpress --file build-with-php-fpm.makejail" \
-    -o virtualnet=":wordpress default" \
-    -o nat -- \
-        --php_tag 13.2-82 --php_use_fpm 1
-```
-
-### Build
-
-```sh
-appjail stop wordpress
-appjail cmd local wordpress sh -c "rm -f var/log/*"
-appjail cmd local wordpress sh -c "rm -f var/cache/pkg/*"
-appjail cmd local wordpress sh -c "rm -f var/run/*"
-appjail cmd local wordpress vi etc/rc.conf
-appjail image export wordpress
-```
-
-### Arguments
-
-* `wp_version` (default: `6.4.1`).
-
 ## Tags
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
