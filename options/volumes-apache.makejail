@@ -1,0 +1,1 @@
+OPTION volume=wp-content mountpoint:/usr/local/www/apache24/data/wp-content
