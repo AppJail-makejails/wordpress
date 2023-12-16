@@ -155,6 +155,20 @@ http {
 * `wp_debug` (default: `0`): If `0`, `WP_DEBUG` will be `false`. Any other value is `true`.
 * `wp_php_type` (default: `production`) The PHP configuration file to link to `/usr/local/etc/php.ini`. Valid values: `development`, `production`. Only valid for apache, use the `php_type` argument when using php-fpm.
 
+### Volumes
+
+#### Apache
+
+| Name        | Owner | Group | Perm | Type | Mountpoint                              |
+| ----------- | ----- | ----- | ---- | ---- | --------------------------------------- |
+| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/apache24/data/wp-content |
+
+#### FPM
+
+| Name        | Owner | Group | Perm | Type | Mountpoint                           |
+| ----------- | ----- | ----- | ---- | ---- | ------------------------------------ |
+| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/wordpress/wp-content  |
+
 ## Tags
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
