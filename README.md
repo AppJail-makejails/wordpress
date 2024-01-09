@@ -173,15 +173,11 @@ http {
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
 | ------------------------- | ------- | -------------- | ------ | ------------- |
-| `13.2-php80-apache-6.4.2` | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
 | `13.2-php81-apache-6.4.2` | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
 | `13.2-php82-apache-6.4.2` | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
-| `13.2-php80-fpm-6.4.2`    | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
 | `13.2-php81-fpm-6.4.2`    | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
 | `13.2-php82-fpm-6.4.2`    | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.2`    |
-| `14.0-php80-apache-6.4.2` | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
 | `14.0-php81-apache-6.4.2` | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
 | `14.0-php82-apache-6.4.2` | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
-| `14.0-php80-fpm-6.4.2`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
 | `14.0-php81-fpm-6.4.2`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
 | `14.0-php82-fpm-6.4.2`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.2`    |
