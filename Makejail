@@ -25,7 +25,7 @@ ARG wp_debug=0
 ARG wp_php_type=production
 
 # Tag
-ARG wp_tag=13.2-php82-apache-6.4.2
+ARG wp_tag=13.2-php82-apache-6.4.3
 
 FROM --entrypoint gh+AppJail-makejails/wordpress wordpress:${wp_tag}
 
