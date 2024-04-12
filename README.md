@@ -25,7 +25,7 @@ wikipedia.org/wiki/WordPress
 ...
 # appjail jail list -j mariadb
 STATUS  NAME     TYPE  VERSION       PORTS  NETWORK_IP4
-UP      mariadb  thin  13.2-RELEASE  -      10.0.0.15
+UP      mariadb  thin  13.3-RELEASE  -      10.0.0.15
 ```
 
 ### Apache
@@ -58,7 +58,7 @@ appjail makejail \
 ...
 # appjail jail list -j wordpress
 STATUS  NAME       TYPE  VERSION       PORTS  NETWORK_IP4
-UP      wordpress  thin  13.2-RELEASE  -      10.0.0.22
+UP      wordpress  thin  13.3-RELEASE  -      10.0.0.22
 ```
 
 To use this variant, you can use NGINX:
@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.2-php82-apache-6.4.3`): see [#tags](#tags).
+* `wp_tag` (default: `13.3-php82-apache-6.4.3`): see [#tags](#tags).
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
 * `wp_db_password` (default: `password_here`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
@@ -173,10 +173,10 @@ http {
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
 | ------------------------- | ------- | -------------- | ------ | ------------- |
-| `13.2-php81-apache-6.4.3` | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.3`    |
-| `13.2-php82-apache-6.4.3` | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.3`    |
-| `13.2-php81-fpm-6.4.3`    | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.3`    |
-| `13.2-php82-fpm-6.4.3`    | `amd64` | `13.2-RELEASE` | `thin` |    `6.4.3`    |
+| `13.3-php81-apache-6.4.3` | `amd64` | `13.3-RELEASE` | `thin` |    `6.4.3`    |
+| `13.3-php82-apache-6.4.3` | `amd64` | `13.3-RELEASE` | `thin` |    `6.4.3`    |
+| `13.3-php81-fpm-6.4.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.4.3`    |
+| `13.3-php82-fpm-6.4.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.4.3`    |
 | `14.0-php81-apache-6.4.3` | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.3`    |
 | `14.0-php82-apache-6.4.3` | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.3`    |
 | `14.0-php81-fpm-6.4.3`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.4.3`    |
