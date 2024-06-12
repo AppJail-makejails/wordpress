@@ -177,7 +177,7 @@ http {
 | `13.3-php82-apache-6.5.3` | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
 | `13.3-php81-fpm-6.5.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
 | `13.3-php82-fpm-6.5.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
-| `14.0-php81-apache-6.5.3` | `amd64` | `14.0-RELEASE` | `thin` |    `6.5.3`    |
-| `14.0-php82-apache-6.5.3` | `amd64` | `14.0-RELEASE` | `thin` |    `6.5.3`    |
-| `14.0-php81-fpm-6.5.3`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.5.3`    |
-| `14.0-php82-fpm-6.5.3`    | `amd64` | `14.0-RELEASE` | `thin` |    `6.5.3`    |
+| `14.1-php81-apache-6.5.3` | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
+| `14.1-php82-apache-6.5.3` | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
+| `14.1-php81-fpm-6.5.3`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
+| `14.1-php82-fpm-6.5.3`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
