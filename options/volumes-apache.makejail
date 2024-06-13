@@ -1,1 +1,1 @@
-OPTION volume=wp-content mountpoint:/usr/local/www/apache24/data/wp-content
+OPTION volume=wp-content mountpoint:/usr/local/www/apache24/data/wp-content owner:80 group:80
