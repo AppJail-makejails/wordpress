@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.3-php82-apache-6.5.3`): see [#tags](#tags).
+* `wp_tag` (default: `13.3-php82-apache-6.6.1`): see [#tags](#tags).
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
 * `wp_db_password` (default: `password_here`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
@@ -173,11 +173,11 @@ http {
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
 | ------------------------- | ------- | -------------- | ------ | ------------- |
-| `13.3-php81-apache-6.5.3` | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
-| `13.3-php82-apache-6.5.3` | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
-| `13.3-php81-fpm-6.5.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
-| `13.3-php82-fpm-6.5.3`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.5.3`    |
-| `14.1-php81-apache-6.5.3` | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
-| `14.1-php82-apache-6.5.3` | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
-| `14.1-php81-fpm-6.5.3`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
-| `14.1-php82-fpm-6.5.3`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.5.3`    |
+| `13.3-php81-apache-6.6.1` | `amd64` | `13.3-RELEASE` | `thin` |    `6.6.1`    |
+| `13.3-php82-apache-6.6.1` | `amd64` | `13.3-RELEASE` | `thin` |    `6.6.1`    |
+| `13.3-php81-fpm-6.6.1`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.6.1`    |
+| `13.3-php82-fpm-6.6.1`    | `amd64` | `13.3-RELEASE` | `thin` |    `6.6.1`    |
+| `14.1-php81-apache-6.6.1` | `amd64` | `14.1-RELEASE` | `thin` |    `6.6.1`    |
+| `14.1-php82-apache-6.6.1` | `amd64` | `14.1-RELEASE` | `thin` |    `6.6.1`    |
+| `14.1-php81-fpm-6.6.1`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.6.1`    |
+| `14.1-php82-fpm-6.6.1`    | `amd64` | `14.1-RELEASE` | `thin` |    `6.6.1`    |
