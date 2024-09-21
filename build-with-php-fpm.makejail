@@ -13,4 +13,4 @@ CMD echo "======> Changing owner and group ... <======"
 CMD chown -R www:www /usr/local/www/wordpress
 
 CMD echo "======> Restarting php-fpm ... <======"
-SERVICE php-fpm restart
+SERVICE php_fpm restart
