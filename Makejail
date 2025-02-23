@@ -27,7 +27,7 @@ ARG wp_debug=0
 ARG wp_php_type=production
 
 # Tag
-ARG wp_tag=13.4-php82-apache-6.7.1
+ARG wp_tag=13.4-php82-apache-6.7.2
 
 FROM --entrypoint "${wordpress_ajspec}" wordpress:${wp_tag}
 

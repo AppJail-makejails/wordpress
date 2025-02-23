@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.4-php82-apache-6.7.1`): see [#tags](#tags).
+* `wp_tag` (default: `13.4-php82-apache-6.7.2`): see [#tags](#tags).
 * `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
@@ -174,11 +174,11 @@ http {
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
 | ------------------------- | ------- | -------------- | ------ | ------------- |
-| `13.4-php81-apache-6.7.1` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.1`    |
-| `13.4-php82-apache-6.7.1` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.1`    |
-| `13.4-php81-fpm-6.7.1`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.1`    |
-| `13.4-php82-fpm-6.7.1`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.1`    |
-| `14.2-php81-apache-6.7.1` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.1`    |
-| `14.2-php82-apache-6.7.1` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.1`    |
-| `14.2-php81-fpm-6.7.1`    | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.1`    |
-| `14.2-php82-fpm-6.7.1`    | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.1`    |
+| `13.4-php81-apache-6.7.2` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
+| `13.4-php82-apache-6.7.2` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
+| `13.4-php81-fpm-6.7.2`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
+| `13.4-php82-fpm-6.7.2`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
+| `14.2-php81-apache-6.7.2` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
+| `14.2-php82-apache-6.7.2` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
+| `14.2-php81-fpm-6.7.2`    | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
+| `14.2-php82-fpm-6.7.2`    | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
