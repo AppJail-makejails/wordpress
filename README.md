@@ -25,7 +25,7 @@ wikipedia.org/wiki/WordPress
 ...
 # appjail jail list -j mariadb
 STATUS  NAME     TYPE  VERSION       PORTS  NETWORK_IP4
-UP      mariadb  thin  13.4-RELEASE  -      10.0.0.15
+UP      mariadb  thin  13.5-RELEASE  -      10.0.0.15
 ```
 
 ### Apache
@@ -58,7 +58,7 @@ appjail makejail \
 ...
 # appjail jail list -j wordpress
 STATUS  NAME       TYPE  VERSION       PORTS  NETWORK_IP4
-UP      wordpress  thin  13.4-RELEASE  -      10.0.0.22
+UP      wordpress  thin  13.5-RELEASE  -      10.0.0.22
 ```
 
 To use this variant, you can use NGINX:
@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.4-php82-apache-6.7.2`): see [#tags](#tags).
+* `wp_tag` (default: `13.5-php82-apache-6.7.2`): see [#tags](#tags).
 * `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
@@ -174,10 +174,10 @@ http {
 
 | Tag                       | Arch    | Version        | Type   | `wp_version`  |
 | ------------------------- | ------- | -------------- | ------ | ------------- |
-| `13.4-php81-apache-6.7.2` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
-| `13.4-php82-apache-6.7.2` | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
-| `13.4-php81-fpm-6.7.2`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
-| `13.4-php82-fpm-6.7.2`    | `amd64` | `13.4-RELEASE` | `thin` |    `6.7.2`    |
+| `13.5-php81-apache-6.7.2` | `amd64` | `13.5-RELEASE` | `thin` |    `6.7.2`    |
+| `13.5-php82-apache-6.7.2` | `amd64` | `13.5-RELEASE` | `thin` |    `6.7.2`    |
+| `13.5-php81-fpm-6.7.2`    | `amd64` | `13.5-RELEASE` | `thin` |    `6.7.2`    |
+| `13.5-php82-fpm-6.7.2`    | `amd64` | `13.5-RELEASE` | `thin` |    `6.7.2`    |
 | `14.2-php81-apache-6.7.2` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
 | `14.2-php82-apache-6.7.2` | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
 | `14.2-php81-fpm-6.7.2`    | `amd64` | `14.2-RELEASE` | `thin` |    `6.7.2`    |
