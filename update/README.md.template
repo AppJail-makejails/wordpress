@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `%%TAG1%%-php%%PHP2%%-apache-%%VERSION%%`): see [#tags](#tags).
+* `wp_tag` (default: `%%TAG1%%-php%%PHP2%%-apache`): see [#tags](#tags).
 * `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
@@ -172,13 +172,13 @@ http {
 
 ## Tags
 
-| Tag                       | Arch    | Version        | Type   | `wp_version`  |
-| ------------------------- | ------- | -------------- | ------ | ------------- |
-| `%%TAG1%%-php%%PHP1%%-apache-%%VERSION%%` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG1%%-php%%PHP2%%-apache-%%VERSION%%` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG1%%-php%%PHP1%%-fpm-%%VERSION%%`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG1%%-php%%PHP2%%-fpm-%%VERSION%%`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG2%%-php%%PHP1%%-apache-%%VERSION%%` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG2%%-php%%PHP2%%-apache-%%VERSION%%` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG2%%-php%%PHP1%%-fpm-%%VERSION%%`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |    `%%VERSION%%`    |
-| `%%TAG2%%-php%%PHP2%%-fpm-%%VERSION%%`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |    `%%VERSION%%`    |
+| Tag                           | Arch    | Version            | Type   | `wp_version`  |
+| ----------------------------- | ------- | ------------------ | ------ | ------------- |
+| `%%TAG1%%-php%%PHP1%%-apache` | `amd64` | `%%TAG1%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG1%%-php%%PHP2%%-apache` | `amd64` | `%%TAG1%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG1%%-php%%PHP1%%-fpm`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG1%%-php%%PHP2%%-fpm`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG2%%-php%%PHP1%%-apache` | `amd64` | `%%TAG2%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG2%%-php%%PHP2%%-apache` | `amd64` | `%%TAG2%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG2%%-php%%PHP1%%-fpm`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` | `%%VERSION%%` |
+| `%%TAG2%%-php%%PHP2%%-fpm`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` | `%%VERSION%%` |
