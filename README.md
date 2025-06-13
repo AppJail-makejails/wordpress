@@ -178,7 +178,7 @@ http {
 | `13.5-php82-apache` | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
 | `13.5-php81-fpm`    | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
 | `13.5-php82-fpm`    | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
-| `14.2-php81-apache` | `amd64` | `14.2-RELEASE` | `thin` | `6.8.1` |
-| `14.2-php82-apache` | `amd64` | `14.2-RELEASE` | `thin` | `6.8.1` |
-| `14.2-php81-fpm`    | `amd64` | `14.2-RELEASE` | `thin` | `6.8.1` |
-| `14.2-php82-fpm`    | `amd64` | `14.2-RELEASE` | `thin` | `6.8.1` |
+| `14.3-php81-apache` | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
+| `14.3-php82-apache` | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
+| `14.3-php81-fpm`    | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
+| `14.3-php82-fpm`    | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
