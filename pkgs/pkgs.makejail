@@ -1,2 +1,0 @@
-CMD echo "======> Installing PHP extensions ... <======"
-CMD --local ./pkgs-php.sh

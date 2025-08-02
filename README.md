@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.5-php82-apache`): see [#tags](#tags).
+* `wp_tag` (default: `13.5-apache`): see [#tags](#tags).
 * `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
@@ -155,30 +155,19 @@ http {
 * `wp_table_prefix` (default: `wp_`).
 * `wp_debug` (default: `0`): If `0`, `WP_DEBUG` will be `false`. Any other value is `true`.
 * `wp_php_type` (default: `production`) The PHP configuration file to link to `/usr/local/etc/php.ini`. Valid values: `development`, `production`. Only valid for apache, use the `php_type` argument when using php-fpm.
+* `wp_manual_setup` (default: `0`): If `1`, the `wp-config.php` file is not created, so WordPress is not configured and the initial configuration is forced from the web UI.
 
 ### Volumes
 
-#### Apache
-
-| Name        | Owner | Group | Perm | Type | Mountpoint                              |
-| ----------- | ----- | ----- | ---- | ---- | --------------------------------------- |
-| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/apache24/data/wp-content |
-
-#### FPM
-
-| Name        | Owner | Group | Perm | Type | Mountpoint                           |
-| ----------- | ----- | ----- | ---- | ---- | ------------------------------------ |
-| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/wordpress/wp-content  |
+| Name        | Owner | Group | Perm | Type | Mountpoint                          |
+| ----------- | ----- | ----- | ---- | ---- | ----------------------------------- |
+| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/wordpress/wp-content |
 
 ## Tags
 
-| Tag                           | Arch    | Version            | Type   | `wp_version`  |
-| ----------------------------- | ------- | ------------------ | ------ | ------------- |
-| `13.5-php81-apache` | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
-| `13.5-php82-apache` | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
-| `13.5-php81-fpm`    | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
-| `13.5-php82-fpm`    | `amd64` | `13.5-RELEASE` | `thin` | `6.8.1` |
-| `14.3-php81-apache` | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
-| `14.3-php82-apache` | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
-| `14.3-php81-fpm`    | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
-| `14.3-php82-fpm`    | `amd64` | `14.3-RELEASE` | `thin` | `6.8.1` |
+| Tag               | Arch    | Version            | Type   |
+| ----------------- | ------- | ------------------ | ------ |
+| `13.5-apache` | `amd64` | `13.5-RELEASE` | `thin` |
+| `13.5-fpm`    | `amd64` | `13.5-RELEASE` | `thin` |
+| `14.3-apache` | `amd64` | `14.3-RELEASE` | `thin` |
+| `14.3-fpm`    | `amd64` | `14.3-RELEASE` | `thin` |

@@ -1,0 +1,5 @@
+CMD echo "======> Installing WordPress ... <======"
+PKG wordpress
+
+CMD echo "======> Changing owner and group ... <======"
+CMD chown www:www /usr/local/www/wordpress

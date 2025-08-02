@@ -1,16 +1,6 @@
 INCLUDE gh+AppJail-makejails/php
-INCLUDE options/volumes-fpm.makejail
-INCLUDE download-wordpress.makejail
-INCLUDE pkgs/pkgs.makejail
-
-CMD echo "======> Creating WWW directory ... <======"
-CMD mkdir -p /usr/local/www
-
-CMD echo "======> Extracting WordPress ... <======"
-CMD tar -C /usr/local/www -xf /tmp/wordpress.tar.gz
-
-CMD echo "======> Changing owner and group ... <======"
-CMD chown -R www:www /usr/local/www/wordpress
+INCLUDE options/volumes.makejail
+INCLUDE install-wordpress.makejail
 
 CMD echo "======> Restarting php-fpm ... <======"
 SERVICE php_fpm restart

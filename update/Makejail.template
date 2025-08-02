@@ -23,17 +23,19 @@ ARG wp_nonce_salt=put your unique phrase here
 ARG wp_table_prefix=wp_
 # WordPress debugging mode
 ARG wp_debug=0
+# Configure WordPress manually
+ARG wp_manual_setup=0
 # .ini
 ARG wp_php_type=production
 
 # Tag
-ARG wp_tag=%%TAG1%%-php%%PHP2%%-apache-%%VERSION%%
+ARG wp_tag=%%TAG1%%-apache
 
-FROM --entrypoint "${wordpress_ajspec}" wordpress:${wp_tag}
+FROM --entrypoint "${wp_ajspec}" wordpress:${wp_tag}
 
-RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/wordpress" ]; then
-	VAR --make-arg-env wwwdir=/usr/local/www/wordpress
-RAW elif appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/apache24/data" ]; then
+VAR --make-arg-env wwwdir=/usr/local/www/wordpress
+
+RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ -L "/usr/local/www/apache24/data" ]; then
 	RAW case "${wp_php_type}" in
 	RAW 	development|production) ;;
 	RAW 	*) echo "VALID TYPES: development, production"; exit 1
@@ -44,45 +46,43 @@ RAW elif appjail cmd jexec "${APPJAIL_JAILNAME}" [ -d "/usr/local/www/apache24/d
 	CMD ln -s /usr/local/etc/php.ini-${wp_php_type} /usr/local/etc/php.ini
 
 	SERVICE apache24 restart
-
-	VAR --make-arg-env wwwdir=/usr/local/www/apache24/data
-RAW else
-	RAW echo "Cannot find a WWW directory." >&2
-	RAW exit 1
-RAW fi
-COPY wp-config-sample.php ${wwwdir}/wp-config.php
-
-REPLACE ${wwwdir}/wp-config.php DB_NAME ${wp_db_name}
-REPLACE ${wwwdir}/wp-config.php DB_USER ${wp_db_user}
-
-REPLACE ${wwwdir}/wp-config.php DB_PASSWORD ${wp_db_password}
-
-REPLACE ${wwwdir}/wp-config.php DB_HOST ${wp_db_host}
-REPLACE ${wwwdir}/wp-config.php DB_CHARSET ${wp_db_charset}
-
-REPLACE ${wwwdir}/wp-config.php DB_COLLATE ${wp_db_collate}
-
-RAW if [ "${wp_auto_secret}" = 0 ]; then
-	COPY wp-security-keys.php ${wwwdir}/wp-security-keys.php
-
-	REPLACE ${wwwdir}/wp-security-keys.php AUTH_KEY ${wp_auth_key}
-	REPLACE ${wwwdir}/wp-security-keys.php SECURE_AUTH_KEY ${wp_secure_auth_key}
-	REPLACE ${wwwdir}/wp-security-keys.php LOGGED_IN_KEY ${wp_logged_in_key}
-	REPLACE ${wwwdir}/wp-security-keys.php NONCE_KEY ${wp_nonce_key}
-	REPLACE ${wwwdir}/wp-security-keys.php AUTH_SALT ${wp_auth_salt}
-	REPLACE ${wwwdir}/wp-security-keys.php SECURE_AUTH_SALT ${wp_secure_auth_salt}
-	REPLACE ${wwwdir}/wp-security-keys.php LOGGED_IN_SALT ${wp_logged_in_salt}
-	REPLACE ${wwwdir}/wp-security-keys.php NONCE_SALT ${wp_nonce_salt}
-RAW else
-	CMD echo "<?php" > ${wwwdir}/wp-security-keys.php
-	CMD fetch -qo - "https://api.wordpress.org/secret-key/1.1/salt" >> ${wwwdir}/wp-security-keys.php
 RAW fi
 
-REPLACE ${wwwdir}/wp-config.php TABLE_PREFIX ${wp_table_prefix}
+RAW if [ "${wp_manual_setup}" = 0 ]; then
+    COPY wp-config-sample.php ${wwwdir}/wp-config.php
 
-RAW if [ "${wp_debug}" = 0 ]; then
-RAW 	wp_debug=false
-RAW else
-RAW 	wp_debug=true
+    REPLACE ${wwwdir}/wp-config.php DB_NAME ${wp_db_name}
+    REPLACE ${wwwdir}/wp-config.php DB_USER ${wp_db_user}
+
+    REPLACE ${wwwdir}/wp-config.php DB_PASSWORD ${wp_db_password}
+
+    REPLACE ${wwwdir}/wp-config.php DB_HOST ${wp_db_host}
+    REPLACE ${wwwdir}/wp-config.php DB_CHARSET ${wp_db_charset}
+
+    REPLACE ${wwwdir}/wp-config.php DB_COLLATE ${wp_db_collate}
+
+    RAW if [ "${wp_auto_secret}" = 0 ]; then
+        COPY wp-security-keys.php ${wwwdir}/wp-security-keys.php
+
+        REPLACE ${wwwdir}/wp-security-keys.php AUTH_KEY ${wp_auth_key}
+        REPLACE ${wwwdir}/wp-security-keys.php SECURE_AUTH_KEY ${wp_secure_auth_key}
+        REPLACE ${wwwdir}/wp-security-keys.php LOGGED_IN_KEY ${wp_logged_in_key}
+        REPLACE ${wwwdir}/wp-security-keys.php NONCE_KEY ${wp_nonce_key}
+        REPLACE ${wwwdir}/wp-security-keys.php AUTH_SALT ${wp_auth_salt}
+        REPLACE ${wwwdir}/wp-security-keys.php SECURE_AUTH_SALT ${wp_secure_auth_salt}
+        REPLACE ${wwwdir}/wp-security-keys.php LOGGED_IN_SALT ${wp_logged_in_salt}
+        REPLACE ${wwwdir}/wp-security-keys.php NONCE_SALT ${wp_nonce_salt}
+    RAW else
+        CMD echo "<?php" > ${wwwdir}/wp-security-keys.php
+        CMD fetch -qo - "https://api.wordpress.org/secret-key/1.1/salt" >> ${wwwdir}/wp-security-keys.php
+    RAW fi
+
+    REPLACE ${wwwdir}/wp-config.php TABLE_PREFIX ${wp_table_prefix}
+
+    RAW if [ "${wp_debug}" = 0 ]; then
+    RAW 	wp_debug=false
+    RAW else
+    RAW 	wp_debug=true
+    RAW fi
+    REPLACE ${wwwdir}/wp-config.php DEBUG ${wp_debug}
 RAW fi
-REPLACE ${wwwdir}/wp-config.php DEBUG ${wp_debug}
