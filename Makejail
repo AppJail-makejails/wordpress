@@ -29,7 +29,7 @@ ARG wp_manual_setup=0
 ARG wp_php_type=production
 
 # Tag
-ARG wp_tag=13.5-apache
+ARG wp_tag=14.3-apache
 
 FROM --entrypoint "${wp_ajspec}" wordpress:${wp_tag}
 

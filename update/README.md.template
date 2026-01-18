@@ -169,5 +169,5 @@ http {
 | ----------------- | ------- | ------------------ | ------ |
 | `%%TAG1%%-apache` | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
 | `%%TAG1%%-fpm`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |
-| `%%TAG2%%-apache` | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
-| `%%TAG2%%-fpm`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |
+| `%%TAG2%%-apache` | `amd64` | `%%TAG2%%` | `thin` |
+| `%%TAG2%%-fpm`    | `amd64` | `%%TAG2%%` | `thin` |

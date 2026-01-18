@@ -25,7 +25,7 @@ wikipedia.org/wiki/WordPress
 ...
 # appjail jail list -j mariadb
 STATUS  NAME     TYPE  VERSION       PORTS  NETWORK_IP4
-UP      mariadb  thin  13.5-RELEASE  -      10.0.0.15
+UP      mariadb  thin  14.3-RELEASE  -      10.0.0.15
 ```
 
 ### Apache
@@ -58,7 +58,7 @@ appjail makejail \
 ...
 # appjail jail list -j wordpress
 STATUS  NAME       TYPE  VERSION       PORTS  NETWORK_IP4
-UP      wordpress  thin  13.5-RELEASE  -      10.0.0.22
+UP      wordpress  thin  14.3-RELEASE  -      10.0.0.22
 ```
 
 To use this variant, you can use NGINX:
@@ -135,7 +135,7 @@ http {
 
 ### Arguments
 
-* `wp_tag` (default: `13.5-apache`): see [#tags](#tags).
+* `wp_tag` (default: `14.3-apache`): see [#tags](#tags).
 * `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
 * `wp_db_name` (default: `database_name_here`).
 * `wp_db_user` (default: `username_here`).
@@ -167,7 +167,7 @@ http {
 
 | Tag               | Arch    | Version            | Type   |
 | ----------------- | ------- | ------------------ | ------ |
-| `13.5-apache` | `amd64` | `13.5-RELEASE` | `thin` |
-| `13.5-fpm`    | `amd64` | `13.5-RELEASE` | `thin` |
 | `14.3-apache` | `amd64` | `14.3-RELEASE` | `thin` |
 | `14.3-fpm`    | `amd64` | `14.3-RELEASE` | `thin` |
+| `15-apache` | `amd64` | `15` | `thin` |
+| `15-fpm`    | `amd64` | `15` | `thin` |
