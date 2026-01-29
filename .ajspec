@@ -26,4 +26,3 @@ tags+: 15-fpm
 15-fpm.sum.amd64: 98dc7ad8c482ff7227df0258e828261527198becfc8373ab7067c3cbc70ffd9c
 15-fpm.size.amd64: 779680630
 15-fpm.source.amd64: "http://appjail.hpc.at/wordpress-fpm/15-fpm-amd64-image.appjail"
-maintenance: "This image is uploading, please wait a moment and try again. If you are importing this image using a Makejail that has the '--<name>_ajspec' argument, you can use the 'reproduce' method to use 'appjail-reproduce'. See 'appjail-image(5)' for details."
