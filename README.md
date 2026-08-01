@@ -88,9 +88,6 @@ services:
       - wordpress: /usr/local/www/html
     options:
       - expose: '8080:80'
-      - label: 'security-group:1'
-      - label: 'security-group.tables.allow-dns:allow-dns'
-      - label: 'security-group.rules.allow-db:pass on appjail_epair proto tcp from %i to 10.0.0.60 port 3306'
   db:
     name: wordpress-db
     makejail: gh+AppJail-makejails/mariadb
