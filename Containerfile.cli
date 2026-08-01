@@ -1,0 +1,43 @@
+ARG FREEBSD_RELEASE
+ARG PHPVER
+
+FROM ghcr.io/appjail-makejails/php:${FREEBSD_RELEASE}-${PHPVER}
+
+ARG PHPVER
+ARG NO_PKGCLEAN
+
+LABEL org.opencontainers.image.title="WordPress" \
+    org.opencontainers.image.description="State-of-the-art semantic personal publishing platform" \
+    org.opencontainers.image.source="https://github.com/AppJail-makejails/wordpress" \
+    org.opencontainers.image.url="https://github.com/AppJail-makejails/wordpress" \
+    org.opencontainers.image.vendor="DtxdF" \
+    org.opencontainers.image.authors="Jesús Daniel Colmenares Oviedo <dtxdf@disroot.org>"
+
+RUN set -xe; \
+    \
+    pkg update; \
+    pkg install -U wp-cli-php${PHPVER} bash; \
+    \
+    if [ -z "${NO_PKGCLEAN}" ]; then \
+        pkg clean -a; \
+        rm -rf /var/cache/pkg/*; \
+    fi; \
+    rm -rf /var/db/pkg/repos/*
+
+RUN mkdir -p /usr/local/www/html; \
+    chown www:www /usr/local/www/html; \
+    chmod 755 /usr/local/www/html
+
+COPY entrypoint-cli.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+VOLUME /usr/local/www/html
+
+WORKDIR /usr/local/www/html
+
+ENV WP_CLI_CUSTOM_SHELL=/usr/local/bin/bash
+
+ENTRYPOINT ["/entrypoint.sh"]
+USER www
+CMD ["wp", "shell"]

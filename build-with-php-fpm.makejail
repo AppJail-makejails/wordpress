@@ -1,6 +1,0 @@
-INCLUDE gh+AppJail-makejails/php
-INCLUDE options/volumes.makejail
-INCLUDE install-wordpress.makejail
-
-CMD echo "======> Restarting php-fpm ... <======"
-SERVICE php_fpm restart

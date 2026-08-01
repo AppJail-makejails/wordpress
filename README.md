@@ -1,173 +1,201 @@
 # WordPress
 
-WordPress is a state-of-the-art semantic personal publishing platform with a focus on aesthetics, web standards, and usability.
-
-More simply, Wordpress is what you use when you want to work with your blogging software, not fight it.
+WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plugin architecture and a template system. WordPress is used by more than 22.0% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites. The most popular languages used are English, Spanish and Bahasa Indonesia.
 
 wikipedia.org/wiki/WordPress
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/WordPress_logo.svg/240px-WordPress_logo.svg.png)
+<img src="https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/wordpress/logo.png" width="30%" height="auto" alt="WordPress logo">
 
 ## How to use this Makejail
 
-### Requirements
-
-```
-# appjail makejail \
-    -j mariadb \
-    -f gh+AppJail-makejails/mariadb \
-    -o virtualnet=":wordpress default" \
-    -o nat -- \
-        --mariadb_user "wpuser" \
-        --mariadb_password "123" \
-        --mariadb_database "wordpress" \
-        --mariadb_root_password "321"
-...
-# appjail jail list -j mariadb
-STATUS  NAME     TYPE  VERSION       PORTS  NETWORK_IP4
-UP      mariadb  thin  14.3-RELEASE  -      10.0.0.15
-```
-
-### Apache
-
-```
-appjail makejail \
-    -j wordpress \
-    -f gh+AppJail-makejails/wordpress \
-    -o virtualnet=":wordpress default" \
+```console
+$ appjail oci run -Pd \
+    -o overwrite=force \
+    -o virtualnet=":<random> default" \
     -o nat \
-    -o expose=80 -- \
-        --wp_db_name "wordpress" \
-        --wp_db_user "wpuser" \
-        --wp_db_password "123" \
-        --wp_db_host "10.0.0.15"
+    ghcr.io/appjail-makejails/wordpress wordpress
 ```
 
-### FPM
+The following environment variables are also honored for configuring your WordPress instance (by [a custom `wp-config.php` implementation](wp-config-oci.php)):
 
-```
-# appjail makejail \
-    -j wordpress \
-    -f gh+AppJail-makejails/wordpress \
-    -o virtualnet=":wordpress default" \
-    -o nat -- \
-        --wp_db_name "wordpress" \
-        --wp_db_user "wpuser" \
-        --wp_db_password "123" \
-        --wp_db_host "10.0.0.15"
-...
-# appjail jail list -j wordpress
-STATUS  NAME       TYPE  VERSION       PORTS  NETWORK_IP4
-UP      wordpress  thin  14.3-RELEASE  -      10.0.0.22
-```
+* `-e WORDPRESS_DB_HOST=...`
+* `-e WORDPRESS_DB_USER=...`
+* `-e WORDPRESS_DB_PASSWORD=...`
+* `-e WORDPRESS_DB_NAME=...`
+* `-e WORDPRESS_TABLE_PREFIX=...`
+* `-e WORDPRESS_AUTH_KEY=...`, `-e WORDPRESS_SECURE_AUTH_KEY=...`, `-e WORDPRESS_LOGGED_IN_KEY=...`, `-e WORDPRESS_NONCE_KEY=...`, `-e WORDPRESS_AUTH_SALT=...`, `-e WORDPRESS_SECURE_AUTH_SALT=...`, `-e WORDPRESS_LOGGED_IN_SALT=...`, `-e WORDPRESS_NONCE_SALT=...` (default to unique random SHA1s, but only if other environment variable configuration is provided)
+* `-e WORDPRESS_DEBUG=1` (defaults to disabled, non-empty value will enable `WP_DEBUG` in `wp-config.php`)
+* `-e WORDPRESS_CONFIG_EXTRA=...` (defaults to nothing, the value will be evaluated by the `eval()` function in `wp-config.php`. This variable is especially useful for applying extra configuration values this image does not provide by default such as `WP_ALLOW_MULTISITE`; see [docker-library/wordpress#142](https://github.com/docker-library/wordpress/pull/142) for more details)
+The `WORDPRESS_DB_NAME` needs to already exist on the given MySQL server; it will not be created by the `wordpress` container.
 
-To use this variant, you can use NGINX:
+If you'd like to be able to access the instance from an external host, standard port mappings can be used:
 
-```sh
-appjail makejail \
-    -j nginx \
-    -f gh+AppJail-makejails/nginx \
-    -o virtualnet=":nginx default" \
+```console
+$ appjail oci run -Pd \
+    -o overwrite=force \
+    -o virtualnet=":<random> default" \
     -o nat \
-    -o expose=80
-appjail cmd jexec nginx mkdir -p /usr/local/www/wordpress
-appjail fstab jail nginx set \
-    -d /usr/local/appjail/jails/wordpress/jail/usr/local/www/wordpress \
-    -m /usr/local/www/wordpress
-appjail fstab jail nginx compile
-appjail fstab jail nginx mount -a
-appjail cmd local nginx cp nginx.conf usr/local/etc/nginx/nginx.conf
-appjail service jail nginx nginx restart
+    -o expose="8080:80" \
+    ghcr.io/appjail-makejails/wordpress wordpress
 ```
 
-**nginx.conf**:
+Then, access it via `http://wordpress` or `http://host-ip:8080` (from external hosts) in a browser.
 
-```
-events {
-        worker_connections 1024;
-}
+When running WordPress with TLS behind a reverse proxy such as NGINX which is responsible for doing TLS termination, be sure to set `X-Forwarded-Proto` appropriately (see ["Using a Reverse Proxy" in "Administration Over SSL" in upstream's documentation](https://wordpress.org/support/article/administration-over-ssl/#using-a-reverse-proxy)). No additional environment variables or configuration should be necessary (this image automatically adds the noted `HTTP_X_FORWARDED_PROTO` code to `wp-config.php` if any of the above-noted environment variables are specified).
 
-http {
-    include       mime.types;
-	default_type  application/octet-stream;
+If your database requires SSL, [WordPress ticket #28625](https://core.trac.wordpress.org/ticket/28625) has the relevant details regarding support for that with WordPress upstream. As a workaround, [the "Secure DB Connection" plugin](https://wordpress.org/plugins/secure-db-connection/) can be extracted into the WordPress directory and the appropriate values described in the configuration of that plugin added in wp-config.php.
 
-	upstream php {
-		server 10.0.0.22:9000;
-	}
+### Secrets
 
-    server {
-        listen 80;
-        server_name $hostname;
-        root /usr/local/www/wordpress;
-        index index.php;
+As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from secrets stored in `/volumes/wordpress-secrets/<secret_name>` files. For example:
 
-		client_max_body_size 8M;
-
-		location = /favicon.ico {
-			log_not_found off;
-			access_log off;
-		}
-
-		location = /robots.txt {
-			allow all;
-			log_not_found off;
-			access_log off;
-		}
-
-		location / {
-			try_files $uri $uri/ /index.php?$args;
-		}
-
-		location ~ \.php$ {
-			include fastcgi_params;
-			fastcgi_intercept_errors on;
-			fastcgi_pass php;
-			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		}
-
-		location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-			expires max;
-			log_not_found off;
-		}
-    }
-}
+```console
+$ mkdir -p /path/to/your/wordpress/secrets
+$ echo "mysecretpassword" > /path/to/your/wordpress/secrets/mysql-root
+$ appjail oci run -Pd \
+    -o overwrite=force \
+    -o virtualnet=":<random> default" \
+    -o nat \
+    -o volume="wordpress-secrets" \
+    -o fstab="/path/to/your/wordpress/secrets wordpress-secrets <volumefs> ro" \
+    -e WORDPRESS_DB_PASSWORD_FILE=/volumes/wordpress-secrets/mysql-root \
+    ghcr.io/appjail-makejails/wordpress wordpress
 ```
 
-### Arguments
+Currently, this is supported for `WORDPRESS_DB_HOST`, `WORDPRESS_DB_USER`, `WORDPRESS_DB_PASSWORD`, `WORDPRESS_DB_NAME`, `WORDPRESS_AUTH_KEY`, `WORDPRESS_SECURE_AUTH_KEY`, `WORDPRESS_LOGGED_IN_KEY`, `WORDPRESS_NONCE_KEY`, `WORDPRESS_AUTH_SALT`, `WORDPRESS_SECURE_AUTH_SALT`, `WORDPRESS_LOGGED_IN_SALT`, `WORDPRESS_NONCE_SALT`, `WORDPRESS_TABLE_PREFIX`, and `WORDPRESS_DEBUG`.
 
-* `wp_tag` (default: `14.3-apache`): see [#tags](#tags).
-* `wordpress_ajspec` (default: `gh+AppJail-makejails/wordpress`): Entry point where the `appjail-ajspec(5)` file is located.
-* `wp_db_name` (default: `database_name_here`).
-* `wp_db_user` (default: `username_here`).
-* `wp_db_password` (default: `password_here`): Password to identify the database user. If the word `random` is used, a random hexadecimal string is used.
-* `wp_db_host` (default: `localhost`).
-* `wp_db_charset` (default: `utf8`).
-* `wp_db_collate` (optional).
-* `wp_auto_secret` (default: `1`): If `0`, `https://api.wordpress.org/secret-key/1.1/salt` is used to generate `AUTH_KEY`, `SECURE_AUTH_KEY`, `LOGGED_IN_KEY`, `NONCE_KEY`, `AUTH_SALT`, `SECURE_AUTH_SALT`, `LOGGED_IN_SALT` and `NONCE_SALT`.
-* `wp_auth_key` (default: `put your unique phrase here`).
-* `wp_secure_auth_key` (default: `put your unique phrase here`).
-* `wp_logged_in_key` (default: `put your unique phrase here`).
-* `wp_nonce_key` (default: `put your unique phrase here`).
-* `wp_auth_salt` (default: `put your unique phrase here`).
-* `wp_secure_auth_salt` (default: `put your unique phrase here`).
-* `wp_logged_in_salt` (default: `put your unique phrase here`).
-* `wp_nonce_salt` (default: `put your unique phrase here`).
-* `wp_table_prefix` (default: `wp_`).
-* `wp_debug` (default: `0`): If `0`, `WP_DEBUG` will be `false`. Any other value is `true`.
-* `wp_php_type` (default: `production`) The PHP configuration file to link to `/usr/local/etc/php.ini`. Valid values: `development`, `production`. Only valid for apache, use the `php_type` argument when using php-fpm.
-* `wp_manual_setup` (default: `0`): If `1`, the `wp-config.php` file is not created, so WordPress is not configured and the initial configuration is forced from the web UI.
+### ... via [`appjail-director`](https://github.com/DtxdF/director)
+
+Example `appjail-director.yml` for `wordpress`:
+
+```yaml
+options:
+  - virtualnet: ':<random> default'
+  - nat:
+  - container: 'boot'
+
+services:
+  wordpress:
+    name: wordpress
+    makejail: gh+AppJail-makejails/wordpress
+    oci:
+      environment:
+        - WORDPRESS_DB_HOST: 10.0.0.60
+        - WORDPRESS_DB_USER: exampleuser
+        - WORDPRESS_DB_PASSWORD: examplepass
+        - WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress: /usr/local/www/html
+    options:
+      - expose: '8080:80'
+      - label: 'security-group:1'
+      - label: 'security-group.tables.allow-dns:allow-dns'
+      - label: 'security-group.rules.allow-db:pass on appjail_epair proto tcp from %i to 10.0.0.60 port 3306'
+  db:
+    name: wordpress-db
+    makejail: gh+AppJail-makejails/mariadb
+    oci:
+      environment:
+        - MARIADB_DATABASE: exampledb
+        - MARIADB_USER: exampleuser
+        - MARIADB_PASSWORD: examplepass
+        - MARIADB_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db: /var/db/mysql
+    options:
+      - virtualnet: 'ajnet:<random> address:10.0.0.60 default'
+
+volumes:
+  wordpress:
+    device: /var/appjail-volumes/wordpress/data
+  db:
+    device: /var/appjail-volumes/wordpress/db
+```
+
+Run `appjail-director up`, wait for it to initialize completely, and visit `http://wordpress` or `http://host-ip:8080` (from external hosts).
+
+### Adding additional libraries / extensions
+
+Mount the volume containing your themes or plugins to the proper directory; and then apply them through the "wp-admin" UI. Ensure read/write/execute permissions are in place for the user:
+
+* Themes go in a subdirectory in `/usr/local/www/html/wp-content/themes/`
+* Plugins go in a subdirectory in `/usr/local/www/html/wp-content/plugins/`
+
+If you wish to provide additional content in an image for deploying in multiple installations, place it in the same directories under `/usr/local/www/wordpress/` instead (which gets copied to `/usr/local/www/html/` on the container's initial startup).
+
+### Running as an arbitrary user
+
+See [the "Running as an arbitrary user" section of the `php` image documentation](https://github.com/appJail-makejails/php#running-as-an-arbitrary-user).
+
+### WP-CLI
+
+This image variant does not contain WordPress itself, but instead contains [WP-CLI](https://wp-cli.org/).
+
+The simplest way to use it with an existing WordPress container would be something similar to the following:
+
+```console
+$ appjail oci run \
+    -o ephemeral \
+    -o overwrite=force \
+    -o virtualnet=":<random> default" \
+    -o nat \
+    -o fstab="/var/appjail-volumes/wordpress/data /usr/local/www/html" \
+    -e WORDPRESS_DB_HOST=wordpress-db \
+    -e WORDPRESS_DB_USER=exampleuser \
+    -e WORDPRESS_DB_PASSWORD=examplepass \
+    -e WORDPRESS_DB_NAME=exampledb \
+    ghcr.io/appjail-makejails/wordpress:15.1-cli wp-cli user list
+```
+
+Generally speaking, for WP-CLI to interact with a WordPress install, it needs access to the on-disk files of the WordPress install, and access to the database (and the easiest way to accomplish that such that wp-config.php does not require changes is to simply join the networking context of the existing and presumably working WordPress container, but there are many other ways to accomplish that which will be left as an exercise for the reader).
+
+### Arguments (stage: build)
+
+* `wordpress_from` (default: `ghcr.io/appjail-makejails/wordpress`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
+* `wordpress_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
+
+### Environment (OCI image)
+
+* `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
+* `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 
 ### Volumes
 
-| Name        | Owner | Group | Perm | Type | Mountpoint                          |
-| ----------- | ----- | ----- | ---- | ---- | ----------------------------------- |
-| wp-content  |  -    |  -    |  -   |  -   | /usr/local/www/wordpress/wp-content |
+| Name | Owner | Group | Perm | Type | Mountpoint |
+| --- | --- | --- | --- | --- | --- |
+| appjail-44aff70a60-usr_local_www_html | `${PUID}` | `${PGID}` | - | - | /usr/local/www/html |
 
-## Tags
+## OCI Configuration
 
-| Tag               | Arch    | Version            | Type   |
-| ----------------- | ------- | ------------------ | ------ |
-| `14.3-apache` | `amd64` | `14.3-RELEASE` | `thin` |
-| `14.3-fpm`    | `amd64` | `14.3-RELEASE` | `thin` |
-| `15-apache` | `amd64` | `15` | `thin` |
-| `15-fpm`    | `amd64` | `15` | `thin` |
+```yaml
+build:
+  variants:
+    - tag: 15.1-apache
+      containerfile: Containerfile.apache
+      aliases: ["latest"]
+      default: true
+      args:
+        FREEBSD_RELEASE: "15.1"
+        APACHEVER: "24"
+        PHPVER: "84"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-fpm
+      containerfile: Containerfile.fpm
+      args:
+        FREEBSD_RELEASE: "15.1"
+        PHPVER: "84"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+    - tag: 15.1-cli
+      containerfile: Containerfile.cli
+      args:
+        FREEBSD_RELEASE: "15.1"
+        PHPVER: "84"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
+```
+
+## Notes
+
+1. The ideas present in the Docker image of WordPress are taken into account for users who are familiar with it.

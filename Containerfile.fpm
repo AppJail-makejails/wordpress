@@ -1,0 +1,103 @@
+ARG FREEBSD_RELEASE
+ARG PHPVER
+
+FROM ghcr.io/appjail-makejails/php:${FREEBSD_RELEASE}-${PHPVER}
+
+ARG NO_PKGCLEAN
+
+LABEL org.opencontainers.image.title="WordPress" \
+    org.opencontainers.image.description="State-of-the-art semantic personal publishing platform" \
+    org.opencontainers.image.source="https://github.com/AppJail-makejails/wordpress" \
+    org.opencontainers.image.url="https://github.com/AppJail-makejails/wordpress" \
+    org.opencontainers.image.vendor="DtxdF" \
+    org.opencontainers.image.authors="Jesús Daniel Colmenares Oviedo <dtxdf@disroot.org>"
+
+ARG PHPVER
+
+RUN set -xe; \
+    \
+    pkg update; \
+    pkg install -U wordpress gsed bash gtar gawk; \
+    \
+    if [ -z "${NO_PKGCLEAN}" ]; then \
+        pkg clean -a; \
+        rm -rf /var/cache/pkg/*; \
+    fi; \
+    rm -rf /var/db/pkg/repos/*; \
+    \
+    php_version=`php -r 'echo PHP_VERSION;' | sed -Ee 's/^([0-9]+)\.([0-9]+)\.[0-9]+$/\1\2/'`; \
+    \
+    if [ "${php_version}" != "${PHPVER}" ]; then \
+        echo "Installed PHP version is different from what expected ( ${php_version} != ${PHPVER} )"; \
+        exit 1; \
+    fi
+
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN set -eux; \
+	{ \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=2'; \
+	} > "/usr/local/etc/php/opcache-recommended.ini"
+
+# https://wordpress.org/support/article/editing-wp-config-php/#configure-error-logging
+RUN set -eux; \
+	{ \
+# https://www.php.net/manual/en/errorfunc.constants.php
+# https://github.com/docker-library/wordpress/issues/420#issuecomment-517839670
+		echo 'error_reporting = E_ERROR | E_WARNING | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_RECOVERABLE_ERROR'; \
+		echo 'display_errors = Off'; \
+		echo 'display_startup_errors = Off'; \
+		echo 'log_errors = On'; \
+		echo 'error_log = /dev/stderr'; \
+		echo 'log_errors_max_len = 1024'; \
+		echo 'ignore_repeated_errors = On'; \
+		echo 'ignore_repeated_source = Off'; \
+		echo 'html_errors = Off'; \
+	} > "/usr/local/etc/php/error-logging.ini"
+
+RUN set -eux; \
+    \
+# https://wordpress.org/support/article/htaccess/
+    [ ! -e /usr/src/wordpress/.htaccess ]; \
+	{ \
+		echo '# BEGIN WordPress'; \
+		echo ''; \
+		echo 'RewriteEngine On'; \
+		echo 'RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]'; \
+		echo 'RewriteBase /'; \
+		echo 'RewriteRule ^index\.php$ - [L]'; \
+		echo 'RewriteCond %{REQUEST_FILENAME} !-f'; \
+		echo 'RewriteCond %{REQUEST_FILENAME} !-d'; \
+		echo 'RewriteRule . /index.php [L]'; \
+		echo ''; \
+		echo '# END WordPress'; \
+	} > /usr/local/www/wordpress/.htaccess; \
+    \
+    mkdir -p /usr/local/www/wordpress/wp-content/cache; \
+    \
+    chown -R www:www /usr/local/www/wordpress; \
+    \
+    mkdir -p /usr/local/www/html; \
+    chown www:www /usr/local/www/html; \
+    chmod 755 /usr/local/www/html; \
+    \
+    rm -f /usr/local/www/wordpress/wp-config.php
+
+VOLUME /usr/local/www/html
+
+COPY wp-config-oci.php /usr/local/www/wordpress
+
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh
+
+# https://github.com/docker-library/wordpress/issues/969
+RUN ln -svf entrypoint.sh /ensure-installed.sh
+
+WORKDIR /usr/local/www/html
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["php-fpm"]
