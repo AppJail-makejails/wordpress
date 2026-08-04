@@ -1,5 +1,6 @@
 ARG wordpress_from=ghcr.io/appjail-makejails/wordpress
 ARG wordpress_tag=latest
 
+OPTION container=boot
 OPTION overwrite=force
 OPTION from=${wordpress_from}:${wordpress_tag}

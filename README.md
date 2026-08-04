@@ -72,7 +72,7 @@ Example `appjail-director.yml` for `wordpress`:
 options:
   - virtualnet: ':<random> default'
   - nat:
-  - container: 'boot'
+  - container: 'args:--pull'
 
 services:
   wordpress:
