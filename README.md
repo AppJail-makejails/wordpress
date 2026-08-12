@@ -80,7 +80,7 @@ services:
     makejail: gh+AppJail-makejails/wordpress
     oci:
       environment:
-        - WORDPRESS_DB_HOST: 10.0.0.60
+        - WORDPRESS_DB_HOST: wordpress-db
         - WORDPRESS_DB_USER: exampleuser
         - WORDPRESS_DB_PASSWORD: examplepass
         - WORDPRESS_DB_NAME: exampledb
@@ -99,8 +99,6 @@ services:
         - MARIADB_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db: /var/db/mysql
-    options:
-      - virtualnet: 'ajnet:<random> address:10.0.0.60 default'
 
 volumes:
   wordpress:
