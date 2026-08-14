@@ -16,7 +16,7 @@ LABEL org.opencontainers.image.title="WordPress" \
 RUN set -xe; \
     \
     pkg update; \
-    pkg install -U wp-cli-php${PHPVER} bash; \
+    pkg install wp-cli-php${PHPVER} bash; \
     \
     if [ -z "${NO_PKGCLEAN}" ]; then \
         pkg clean -a; \

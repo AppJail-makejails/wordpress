@@ -17,7 +17,7 @@ ARG PHPVER
 RUN set -xe; \
     \
     pkg update; \
-    pkg install -U wordpress gsed bash gtar gawk; \
+    pkg install wordpress gsed bash gtar gawk; \
     \
     if [ -z "${NO_PKGCLEAN}" ]; then \
         pkg clean -a; \
