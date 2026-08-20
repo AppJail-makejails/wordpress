@@ -45,20 +45,18 @@ When running WordPress with TLS behind a reverse proxy such as NGINX which is re
 
 If your database requires SSL, [WordPress ticket #28625](https://core.trac.wordpress.org/ticket/28625) has the relevant details regarding support for that with WordPress upstream. As a workaround, [the "Secure DB Connection" plugin](https://wordpress.org/plugins/secure-db-connection/) can be extracted into the WordPress directory and the appropriate values described in the configuration of that plugin added in wp-config.php.
 
-### Secrets
+### AppJail Secrets
 
-As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from secrets stored in `/volumes/wordpress-secrets/<secret_name>` files. For example:
+As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from [AppJail secrets](https://appjail.readthedocs.io/en/latest/secrets/) stored in `/secrets/<group_name>/<secret_name>` files. For example:
 
 ```console
-$ mkdir -p /path/to/your/wordpress/secrets
-$ echo "mysecretpassword" > /path/to/your/wordpress/secrets/mysql-root
+$ appjail secrets create -s wordpress/mysql-root mysecretpassword
 $ appjail oci run -Pd \
     -o overwrite=force \
     -o virtualnet=":<random> default" \
     -o nat \
-    -o volume="wordpress-secrets" \
-    -o fstab="/path/to/your/wordpress/secrets wordpress-secrets <volumefs> ro" \
-    -e WORDPRESS_DB_PASSWORD_FILE=/volumes/wordpress-secrets/mysql-root \
+    -o secret=wordpress \
+    -e WORDPRESS_DB_PASSWORD_FILE=/secrets/wordpress/mysql-root \
     ghcr.io/appjail-makejails/wordpress wordpress
 ```
 
@@ -153,6 +151,7 @@ Generally speaking, for WP-CLI to interact with a WordPress install, it needs ac
 
 * `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
 * `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
+* `UMASK` (default: `0022`): Override default umask setting.
 
 ### Volumes
 
